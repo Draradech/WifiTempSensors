@@ -60,7 +60,7 @@ void loop()
       ESP.deepSleep(1440 minutes); // note: more than ESP.deepSleepMax(), should lead to sleep "forever"
     }
   }
-  
+
   if (sent == 0 && WiFi.localIP().isSet() && temperature.isConversionComplete())
   {
     udp.begin(udpPort);
@@ -69,11 +69,11 @@ void loop()
     Serial.println("\nsending packet");
     #endif
 
-	  DeviceAddress deviceAddress;
-  	oneWire.reset_search();
+    DeviceAddress deviceAddress;
+    oneWire.reset_search();
     while (oneWire.search(deviceAddress))
     {
-		  if (temperature.validAddress(deviceAddress))
+      if (temperature.validAddress(deviceAddress))
       {
         float temp = temperature.getTempC(deviceAddress);
         udp.printf("%02x%02x%02x%02x%02x%02x", deviceAddress[1], deviceAddress[2], deviceAddress[3], deviceAddress[4], deviceAddress[5], deviceAddress[6]);
@@ -82,7 +82,7 @@ void loop()
         Serial.printf("%02x%02x%02x%02x%02x%02x: %f\n", deviceAddress[1], deviceAddress[2], deviceAddress[3], deviceAddress[4], deviceAddress[5], deviceAddress[6], temp);
         #endif
       }
-	  }
+    }
     
     uint8_t mac[6];
     wifi_get_macaddr(STATION_IF, mac);
